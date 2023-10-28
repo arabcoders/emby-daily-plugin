@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DailyExtender.Helpers
+﻿namespace DailyExtender.Helpers
 {
     public class Constants
     {

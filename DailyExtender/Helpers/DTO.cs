@@ -12,7 +12,6 @@ namespace DailyExtender.Helpers
         public string Date { get; set; }
         public string Year { get; set; }
         public string Title { get; set; }
-#nullable enable
-        public string? File { get; set; }
+        public string File { get; set; }
     }
 }

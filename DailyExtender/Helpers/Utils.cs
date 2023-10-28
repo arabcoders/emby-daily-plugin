@@ -103,7 +103,6 @@ namespace DailyExtender.Helpers
             catch { }
             result.Item.ProductionYear = date.Year;
             result.Item.PremiereDate = date;
-            result.Item.ForcedSortName = date.ToString("yyyyMMdd") + "-" + result.Item.Name;
             result.Item.ParentIndexNumber = int.Parse(dto.Season);
             result.Item.IndexNumber = int.Parse(dto.Episode);
 
