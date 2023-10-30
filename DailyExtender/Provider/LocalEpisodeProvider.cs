@@ -21,11 +21,20 @@ namespace DailyExtender.Provider
 
         public Task<MetadataResult<Episode>> GetMetadata(ItemInfo info, LibraryOptions libraryOptions, IDirectoryService directoryService, CancellationToken cancellationToken)
         {
+            var result = new MetadataResult<Episode>();
+
+            // ignore youtube content due to it's overriding yt-info reader provider.
+            if (Utils.IsYouTubeContent(info.Path))
+            {
+                _logger.Debug($"GetMetadata: Ignoring Path {info.Path}");
+                return Task.FromResult(result);
+            }
+
             var dto = Utils.Parse(info.Path);
 
             if (dto == null || dto.Year == null)
             {
-                return Task.FromResult(new MetadataResult<Episode>());
+                return Task.FromResult(result);
             }
 
             return Task.FromResult(Utils.DTOToEpisode(dto));
