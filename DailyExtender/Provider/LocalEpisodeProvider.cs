@@ -26,7 +26,13 @@ namespace DailyExtender.Provider
             // ignore youtube content due to it's overriding yt-info reader provider.
             if (Utils.IsYouTubeContent(info.Path))
             {
-                _logger.Debug($"GetMetadata: Ignoring Path {info.Path}");
+                _logger.Debug($"LEP GetMetadata: Ignoring Path {info.Path}");
+                return Task.FromResult(result);
+            }
+            // ignore non daily content.
+            if (Utils.IsDailyContent(info.Path))
+            {
+                _logger.Debug($"LEP GetMetadata: Ignoring Non daily content {info.Path}");
                 return Task.FromResult(result);
             }
 

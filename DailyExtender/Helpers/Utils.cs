@@ -13,6 +13,28 @@ namespace DailyExtender.Helpers
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
+        public static bool IsDailyContent(string fileName)
+        {
+            var fn = Path.GetFileNameWithoutExtension(fileName);
+
+            foreach (var pattern in Constants.Patterns)
+            {
+                var rx = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+                if (rx.IsMatch(fn))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Parse filename for metadata.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public static DTO Parse(string fileName)
         {
             var fn = Path.GetFileNameWithoutExtension(fileName);
