@@ -30,7 +30,7 @@ namespace DailyExtender.Provider
                 return Task.FromResult(result);
             }
             // ignore non daily content.
-            if (Utils.IsDailyContent(info.Path))
+            if (!Utils.IsDailyContent(info.Path))
             {
                 _logger.Debug($"LEP GetMetadata: Ignoring Non daily content {info.Path}");
                 return Task.FromResult(result);
@@ -40,10 +40,15 @@ namespace DailyExtender.Provider
 
             if (dto == null || dto.Year == null)
             {
+                _logger.Debug($"LEP GetMetadata: No data was found {dto.Year}");
                 return Task.FromResult(result);
             }
 
-            return Task.FromResult(Utils.DTOToEpisode(dto));
+            result = Utils.DTOToEpisode(dto);
+
+            _logger.Debug($"LEP GetMetadata: Parsed data {dto}");
+
+            return Task.FromResult(result);
         }
     }
 }

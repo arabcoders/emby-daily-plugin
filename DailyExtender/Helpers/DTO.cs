@@ -13,5 +13,10 @@ namespace DailyExtender.Helpers
         public string Year { get; set; }
         public string Title { get; set; }
         public string File { get; set; }
+
+        public override string ToString()
+        {
+            return $"Parsed: {Parsed}, Season: {Season}, Episode: {Episode}, Series: {Series}, Date: {Date}, Year: {Year}, Title: {Title}, File: {File}";
+        }
     }
 }
