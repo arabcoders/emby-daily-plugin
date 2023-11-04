@@ -17,10 +17,8 @@ namespace DailyExtender.Helpers
         {
             var fn = Path.GetFileNameWithoutExtension(fileName);
 
-            foreach (var pattern in Constants.Patterns)
+            foreach (var rx in Constants.Patterns)
             {
-                var rx = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
                 if (rx.IsMatch(fn))
                 {
                     return true;
@@ -40,10 +38,8 @@ namespace DailyExtender.Helpers
             var fn = Path.GetFileNameWithoutExtension(fileName);
             var dto = new DTO { File = fileName };
 
-            foreach (var pattern in Constants.Patterns)
+            foreach (var rx in Constants.Patterns)
             {
-                var rx = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
                 if (rx.IsMatch(fn))
                 {
                     return MakeDTO(dto, rx.Matches(fn));
@@ -51,34 +47,6 @@ namespace DailyExtender.Helpers
             }
 
             return dto;
-        }
-
-        /// <summary>
-        ///  Check if filename contains youtube id.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static bool IsYouTubeContent(string name)
-        {
-            var rxc = new Regex(@"(?<=\[)(?:youtube-)?(?<id>(UC|HC)[a-zA-Z0-9\-_]{22})(?=\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            if (rxc.IsMatch(name))
-            {
-                return true;
-            }
-
-            var rxp = new Regex(@"\[(?:youtube\-)?(?<id>PL[^\[\]]{16}|PL[^\[\]]{32}|(UU|FL|LP|RD)[^\[\]]{22})\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            if (rxp.IsMatch(name))
-            {
-                return true;
-            }
-
-            var rx = new Regex(@"(?<=\[)(?:youtube-)?(?<id>[a-zA-Z0-9\-_]{11})(?=\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            if (rx.IsMatch(name))
-            {
-                return true;
-            }
-
-            return false;
         }
 
         protected static DTO MakeDTO(DTO dto, MatchCollection match)
@@ -159,5 +127,4 @@ namespace DailyExtender.Helpers
             return result;
         }
     }
-
 }

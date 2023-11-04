@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace DailyExtender.Helpers
 {
     /// <summary>
@@ -16,7 +18,7 @@ namespace DailyExtender.Helpers
 
         public override string ToString()
         {
-            return $"Parsed: {Parsed}, Season: {Season}, Episode: {Episode}, Series: {Series}, Date: {Date}, Year: {Year}, Title: {Title}, File: {File}";
+            return JsonSerializer.Serialize(this);
         }
     }
 }
