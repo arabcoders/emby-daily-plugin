@@ -1,32 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using DailyExtender.Configuration;
 using DailyExtender.Helpers;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
-using MediaBrowser.Model.Plugins;
+using MediaBrowser.Model.Logging;
 using MediaBrowser.Model.Serialization;
 
 namespace DailyExtender
 {
-    public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
+    public class Plugin : BasePlugin
     {
         public override string Name => Constants.PLUGIN_NAME;
-        public static Plugin Instance { get; private set; }
+        private readonly ILogger _logger;
         public override Guid Id => Guid.Parse(Constants.PLUGIN_GUID);
-        public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer) : base(applicationPaths, xmlSerializer)
+        public Plugin(ILogManager logManager)
         {
-            Instance = this;
+            _logger = logManager.GetLogger(Name);
+            _logger.Info("Loaded Daily Extender Plugin.");
         }
-
-        public IEnumerable<PluginPageInfo> GetPages()
-        {
-            return new[] {
-                new PluginPageInfo {
-                    Name = Name,
-                    EmbeddedResourcePath = string.Format("{0}.Configuration.configPage.html", GetType().Namespace)
-                }
-            };
-        }
+        public override string Description => "Extends daily episode date format.";
     }
 }

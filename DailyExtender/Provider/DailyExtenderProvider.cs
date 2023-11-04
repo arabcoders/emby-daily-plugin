@@ -1,20 +1,23 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using DailyExtender.Helpers;
+using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Entities.TV;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Configuration;
 using MediaBrowser.Model.Logging;
+using MediaBrowser.Model.IO;
 
 namespace DailyExtender.Provider
 {
-    public class LocalEpisodeProvider : ILocalMetadataProvider<Episode>
+    public class DailyExtenderProvider : ILocalMetadataProvider<Episode>, IHasItemChangeMonitor
     {
         protected readonly ILogger _logger;
 
         public string Name => Constants.PLUGIN_NAME;
 
-        public LocalEpisodeProvider(ILogManager logManager)
+        public DailyExtenderProvider(ILogManager logManager)
         {
             _logger = logManager.GetLogger(GetType().Name);
         }
@@ -23,16 +26,10 @@ namespace DailyExtender.Provider
         {
             var result = new MetadataResult<Episode>();
 
-            // ignore youtube content due to it's overriding yt-info reader provider.
-            if (Utils.IsYouTubeContent(info.Path))
-            {
-                _logger.Debug($"LEP GetMetadata: Ignoring Path {info.Path}");
-                return Task.FromResult(result);
-            }
             // ignore non daily content.
             if (!Utils.IsDailyContent(info.Path))
             {
-                _logger.Debug($"LEP GetMetadata: Ignoring Non daily content {info.Path}");
+                _logger.Debug($"DEP GetMetadata: Ignoring Non-daily content. {info.Path}");
                 return Task.FromResult(result);
             }
 
@@ -40,15 +37,28 @@ namespace DailyExtender.Provider
 
             if (dto == null || dto.Year == null)
             {
-                _logger.Debug($"LEP GetMetadata: No data was found {dto.Year}");
+                _logger.Debug($"DEP GetMetadata: Parser was unable to parse. {info.Path}");
                 return Task.FromResult(result);
             }
 
             result = Utils.DTOToEpisode(dto);
 
-            _logger.Debug($"LEP GetMetadata: Parsed data {dto}");
+            _logger.Debug($"DEP GetMetadata: Parsed. {dto}");
 
             return Task.FromResult(result);
+        }
+
+        public bool HasChanged(BaseItem item, LibraryOptions libraryOptions, IDirectoryService directoryService)
+        {
+            _logger.Debug($"DEP HasChanged: Checking {item.Path}");
+
+            FileSystemMetadata fileInfo = directoryService.GetFile(item.Path);
+            bool result = fileInfo.Exists && fileInfo.LastWriteTimeUtc.ToUniversalTime() > item.DateLastSaved.ToUniversalTime();
+            string status = result ? "Has Changed" : "Has Not Changed";
+
+            _logger.Debug($"DEP HasChanged Result: {status}");
+
+            return result;
         }
     }
 }
