@@ -1,4 +1,5 @@
 using System.Text.Json;
+using MediaBrowser.Model.IO;
 
 namespace DailyExtender.Helpers
 {
@@ -15,7 +16,9 @@ namespace DailyExtender.Helpers
         public string Year { get; set; }
         public string Title { get; set; }
         public string File { get; set; }
-
+#nullable enable
+        public FileSystemMetadata? File_path { get; set; }
+#nullable disable
         public override string ToString()
         {
             return JsonSerializer.Serialize(this);
