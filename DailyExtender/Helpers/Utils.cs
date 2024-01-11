@@ -3,6 +3,7 @@ using MediaBrowser.Controller.Providers;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using MediaBrowser.Model.IO;
 
 namespace DailyExtender.Helpers
 {
@@ -124,6 +125,11 @@ namespace DailyExtender.Helpers
             result.Item.ParentIndexNumber = int.Parse(dto.Season);
             result.Item.IndexNumber = int.Parse(dto.Episode);
 
+            var testEpisodeLength = result.Item.IndexNumber.ToString().Length;
+            if (testEpisodeLength < 8 && null != dto.File_path && dto.File_path.Exists)
+            {
+                result.Item.IndexNumber = int.Parse(result.Item.IndexNumber.ToString() + dto.File_path.LastWriteTimeUtc.ToString("mmss"));
+            }
             return result;
         }
     }

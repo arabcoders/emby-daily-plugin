@@ -41,6 +41,8 @@ namespace DailyExtender.Provider
                 return Task.FromResult(result);
             }
 
+            dto.File_path = directoryService.GetFile(info.Path);
+
             result = Utils.DTOToEpisode(dto);
 
             _logger.Debug($"DEP GetMetadata: Parsed. {dto}");
