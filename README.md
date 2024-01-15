@@ -1,9 +1,9 @@
 # Emby Extended Datetime parser for Daily Episodes.
 
 This plugin support the standard Japanese media date format for daily shows episodes. This plugin only concerns itself with episodes,
-If you want metadata for the series itself or the season you should use `NFO` files.
+If you want real metadata for the series itself or the season you should use `NFO` files.
 
-For jellyfin please visit
+For jellyfin version of the plugin please visit [jf-daily-plugin](https://github.com/arabcoders/jf-daily-plugin) page.
 
 ## Expected filename formats.
 
@@ -18,17 +18,17 @@ So the filename itself can contain any of the previous date formats. However, th
 `Note:` For the 2nd format `Series title - {date} - title [720p].mkv` the year has to be 4 digit it's due to misidentifying files that has titles with 6 digit numbers in them.
 
 ## Special Format
+
 This format is specially added to support a better looking title.
 * `{date}` Series title -? `(#0|ep0|DVD1|DVD1.1|SP1|SP1.1)` -? title [720p].mkv
 
 The generated title will be `(#0|ep0|DVD1|DVD1.1|SP1|SP1.1) - title`.
 
-## Installing the plugin.
+# Installation
 
 Go to the Releases page and download the latest release.
 
-Unzip the file and copy `DailyExtender.dll` to Emby plugins directory and restart Emby. Go to your Japanese library make sure `DAILYExtender` is on the top of your `Metadata readers` list. Disable all external metadata sources.
-And Only enable `Image fetchers (Episodes):` - `Screen grabber (FFmpeg)`. if you don't have a local image for the episode, it will be fetched from the video file itself.
+Unzip the file and copy `DailyExtender.dll` to Emby plugins directory and restart Emby. Go to your Japanese library make sure `DAILYExtender` is on the top of your `Metadata readers` list. Disable all external metadata sources. And only enable `Image fetchers (Episodes):` - `Screen grabber (FFmpeg)`. if you don't have a local image for the episode, it will be fetched from the video file itself.
 
 ## Build and Installing from source
 
@@ -39,5 +39,6 @@ And Only enable `Image fetchers (Episodes):` - `Screen grabber (FFmpeg)`. if you
     dotnet publish --configuration Release --output bin
     ```
 4. Copy the `DailyExtender.dll` from the `bin` directory which was created in step 3 to Emby plugins directory. You can find your directory by going to Dashboard.
-5. Be sure that the plugin files are owned by your `Emby` user:
-3. If performed correctly you will see a plugin named DAILYExtender in `Dashboard -> Plugins`.
+5. Be sure that the plugin files are owned by your `Emby` user.
+
+If performed correctly you will see a plugin named DAILYExtender in `Dashboard -> Plugins`.
