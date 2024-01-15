@@ -1,5 +1,8 @@
 # Emby Extended Datetime parser for Daily Episodes.
 
+![Build Status](https://github.com/ArabCoders/emby-daily-plugin/actions/workflows/build-validation.yml/badge.svg)
+![License](https://img.shields.io/github/license/ArabCoders/emby-daily-plugin.svg)
+
 This plugin support the standard Japanese media date format for daily shows episodes. This plugin only concerns itself with episodes,
 If you want real metadata for the series itself or the season you should use `NFO` files.
 
